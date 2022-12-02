@@ -5,26 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import com.app.printollo.api.StorageHelper
-import com.app.printollo.consts.UserManager
+import com.app.printollo.consts.GlobalStrings
 import com.app.printollo.databinding.FragmentSecondBinding
+import com.app.printollo.models.UserModel
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
 class InfoFragment : Fragment() {
 
     private var _binding: FragmentSecondBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
         return binding.root
@@ -33,12 +26,8 @@ class InfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val userManager = UserManager(view.context)
-        binding.textviewSecond.text=userManager.fetchUser()
-
-        binding.buttonSecond.setOnClickListener {
-            StorageHelper().getUser(view.context)
-        }
+        binding.textviewSecond.text=arguments?.
+        getParcelable<UserModel>(GlobalStrings().userString).toString()
     }
 
     override fun onDestroyView() {

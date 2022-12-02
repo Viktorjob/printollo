@@ -1,16 +1,13 @@
 package com.app.printollo
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import com.app.printollo.consts.SessionManager
-import com.app.printollo.consts.UserManager
 import com.app.printollo.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         SessionManager(this)
-        UserManager(this)
 
     }
 

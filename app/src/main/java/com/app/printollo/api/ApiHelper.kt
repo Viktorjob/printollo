@@ -1,12 +1,11 @@
 package com.app.printollo.api
 
 import android.content.Context
-import com.app.printollo.LoginFragment
 import com.app.printollo.consts.SessionManager
-import com.app.printollo.consts.UserManager
 import com.app.printollo.models.RequestModel
 import com.app.printollo.models.ResponseModel
 import com.app.printollo.models.UserModel
+import com.app.printollo.utils.ResultListener
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApiHelper(context: Context) {
 
     private val sessionManager = SessionManager(context)
-    fun login(model: RequestModel, context: Context){
+    fun login(model: RequestModel){
         val client = OkHttpClient.Builder().build()
 
         val retrofit = Retrofit.Builder()
@@ -34,7 +33,6 @@ class ApiHelper(context: Context) {
                 if(response?.body()?.accessToken != null){
                     println(response.body().toString());
                     sessionManager.saveAuthToken(response.body()!!.accessToken)
-                    getUser(context)
                 }
 
             }
@@ -44,7 +42,7 @@ class ApiHelper(context: Context) {
             }
         })
     }
-    fun  getUser(context: Context){
+    fun  getUser(context: Context, resultListener: ResultListener<ArrayList<UserModel>>){
         var token = sessionManager.fetchAuthToken() ?: ""
         val client = OkHttpClient
             .Builder()
@@ -63,10 +61,11 @@ class ApiHelper(context: Context) {
 
         val repos: Call<ArrayList<UserModel>> = service.getUser()
         repos.enqueue( object : Callback<ArrayList<UserModel>> {
-            override fun onResponse(call: Call<ArrayList<UserModel>>?, response: Response<ArrayList<UserModel>>?) {
+            override fun onResponse(call: Call<ArrayList<UserModel>>?,
+                                    response: Response<ArrayList<UserModel>>?){
                 if(response?.body() != null){
                     println(response.body().toString());
-                    UserManager(context = context).saveUser(response.body().toString())
+                    resultListener.onSuccess(response.body()!!)
                 }
             }
 
