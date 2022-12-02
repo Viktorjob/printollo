@@ -1,14 +1,19 @@
 package com.app.printollo
 
+import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.app.printollo.api.ApiHelper
 import com.app.printollo.api.StorageHelper
+import com.app.printollo.consts.SessionManager
+import com.app.printollo.consts.UserManager
 import com.app.printollo.databinding.FragmentFirstBinding
 
 /**
@@ -21,6 +26,7 @@ class LoginFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -45,15 +51,22 @@ class LoginFragment : Fragment() {
                 binding.buttonFirst.isEnabled = true
             }
         }
+        val userManager = UserManager(view.context)
+
 
         binding.buttonFirst.setOnClickListener {
             StorageHelper().login(binding.loginField.text.toString(),
-                binding.passwordField.text.toString())
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+                binding.passwordField.text.toString(), it.context)
+            //todo change to async or corutines
+            Handler().postDelayed({
+                val user = userManager.fetchUser()
+                if (user.equals(""))
+                    findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment) //navigate to login screen if no user exists
+                else
+                    findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            }, 2000)
         }
     }
-
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.app.printollo.api.StorageHelper
+import com.app.printollo.consts.UserManager
 import com.app.printollo.databinding.FragmentSecondBinding
 
 /**
@@ -31,9 +33,11 @@ class InfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val userManager = UserManager(view.context)
+        binding.textviewSecond.text=userManager.fetchUser()
 
         binding.buttonSecond.setOnClickListener {
-            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+            StorageHelper().getUser(view.context)
         }
     }
 
