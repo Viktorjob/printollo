@@ -18,10 +18,10 @@ data class UserModel(
     val isDeleted: Boolean?,
     val deletedDate: String?,
     val deletedbyUserId: String?,
-    //val companies	List<CompanyModel>,
+    val companies:	List<CompanyModel>?,
     //abstract var roles	List<E>
-    //abstract var deviceRoles	List<E>
-    //abstract var claims	List<UserClaimModel>
+    val deviceRoles: List<DevClaimTemplate>,
+    val claims:	List<UserClaimModel>?,
     val templateId: Int?,
     val accessToClientsView: Boolean?,
     val canAddClients: Boolean?,
@@ -67,6 +67,8 @@ data class UserModel(
         parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
         parcel.readString(),
         parcel.readString(),
+        TODO("companies"),
+        TODO("claims"),
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
         parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
