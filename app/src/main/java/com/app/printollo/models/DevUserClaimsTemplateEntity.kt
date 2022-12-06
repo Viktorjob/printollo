@@ -3,7 +3,7 @@ package com.app.printollo.models
 import android.os.Parcel
 import android.os.Parcelable
 
-data class DevClaimTemplate (
+data class DevUserClaimsTemplateEntity (
     val id: Int?,
     val name: String?,
     val isDeleted: Boolean?,
@@ -12,7 +12,6 @@ data class DevClaimTemplate (
     val dateAdded: String?,
     val dateModified: String?,
     val role: String?,
-    val templateClaims: List<DevClaimPos?>?,
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,
@@ -22,8 +21,7 @@ data class DevClaimTemplate (
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readString(),
-        TODO("templateClaims")
+        parcel.readString()
     ) {
     }
 
@@ -42,12 +40,12 @@ data class DevClaimTemplate (
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<DevClaimTemplate> {
-        override fun createFromParcel(parcel: Parcel): DevClaimTemplate {
-            return DevClaimTemplate(parcel)
+    companion object CREATOR : Parcelable.Creator<DevUserClaimsTemplateEntity> {
+        override fun createFromParcel(parcel: Parcel): DevUserClaimsTemplateEntity {
+            return DevUserClaimsTemplateEntity(parcel)
         }
 
-        override fun newArray(size: Int): Array<DevClaimTemplate?> {
+        override fun newArray(size: Int): Array<DevUserClaimsTemplateEntity?> {
             return arrayOfNulls(size)
         }
     }

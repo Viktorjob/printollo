@@ -3,51 +3,55 @@ package com.app.printollo.models
 import android.os.Parcel
 import android.os.Parcelable
 
-data class DevClaimTemplate (
+data class DevClaimEntity (
     val id: Int?,
     val name: String?,
+    val name_EN: String?,
+    val value: String?,
     val isDeleted: Boolean?,
     val dateDeleted: String?,
     val userId: String?,
     val dateAdded: String?,
     val dateModified: String?,
-    val role: String?,
-    val templateClaims: List<DevClaimPos?>?,
+    val deletedbyUserId: String?,
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readString(),
-        TODO("templateClaims")
+        parcel.readString()
     ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(id)
         parcel.writeString(name)
+        parcel.writeString(name_EN)
+        parcel.writeString(value)
         parcel.writeValue(isDeleted)
         parcel.writeString(dateDeleted)
         parcel.writeString(userId)
         parcel.writeString(dateAdded)
         parcel.writeString(dateModified)
-        parcel.writeString(role)
+        parcel.writeString(deletedbyUserId)
     }
 
     override fun describeContents(): Int {
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<DevClaimTemplate> {
-        override fun createFromParcel(parcel: Parcel): DevClaimTemplate {
-            return DevClaimTemplate(parcel)
+    companion object CREATOR : Parcelable.Creator<DevClaimEntity> {
+        override fun createFromParcel(parcel: Parcel): DevClaimEntity {
+            return DevClaimEntity(parcel)
         }
 
-        override fun newArray(size: Int): Array<DevClaimTemplate?> {
+        override fun newArray(size: Int): Array<DevClaimEntity?> {
             return arrayOfNulls(size)
         }
     }

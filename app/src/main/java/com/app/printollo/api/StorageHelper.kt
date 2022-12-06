@@ -11,12 +11,12 @@ import retrofit2.Response
 import javax.security.auth.callback.Callback
 
 class StorageHelper() {
-    fun login(login: String, password: String, context: Context){
+    fun login(login: String, password: String, context: Context, resultListener: ResultListener<String>){
         val requestModel = RequestModel(login, password)
 
-        ApiHelper(context).login(requestModel)
+        ApiHelper(context).login(requestModel, resultListener)
     }
     fun getUser(context: Context, resultListener: ResultListener<ArrayList<UserModel>>){
-        ApiHelper(context).getUser(context, resultListener)
+        ApiHelper(context).getUser( resultListener)
     }
 }

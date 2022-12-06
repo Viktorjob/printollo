@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApiHelper(context: Context) {
 
     private val sessionManager = SessionManager(context)
-    fun login(model: RequestModel){
+    fun login(model: RequestModel, resultListener: ResultListener<String>){
         val client = OkHttpClient.Builder().build()
 
         val retrofit = Retrofit.Builder()
@@ -30,19 +30,27 @@ class ApiHelper(context: Context) {
         val repos: Call<ResponseModel> = service.getToken(model)
         repos.enqueue( object : Callback<ResponseModel> {
             override fun onResponse(call: Call<ResponseModel>?, response: Response<ResponseModel>?) {
+                println("ora 12121212");
+                println(response?.body().toString());
+                println("ora 141414141");
                 if(response?.body()?.accessToken != null){
                     println(response.body().toString());
+                    resultListener.onSuccess(response.body()!!.accessToken)
                     sessionManager.saveAuthToken(response.body()!!.accessToken)
+                }else{
+                    resultListener.onFail("error")
                 }
 
             }
 
             override fun onFailure(call: Call<ResponseModel>?, t: Throwable?) {
+                println("ora 21212121");
+
                 println(t.toString())
             }
         })
     }
-    fun  getUser(context: Context, resultListener: ResultListener<ArrayList<UserModel>>){
+    fun  getUser(resultListener: ResultListener<ArrayList<UserModel>>){
         var token = sessionManager.fetchAuthToken() ?: ""
         val client = OkHttpClient
             .Builder()
@@ -58,7 +66,7 @@ class ApiHelper(context: Context) {
 
         val service: ApiInterface = retrofit.create(ApiInterface::class.java)
 
-
+println("ora 68557868657")
         val repos: Call<ArrayList<UserModel>> = service.getUser()
         repos.enqueue( object : Callback<ArrayList<UserModel>> {
             override fun onResponse(call: Call<ArrayList<UserModel>>?,

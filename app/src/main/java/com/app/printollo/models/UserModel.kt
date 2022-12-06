@@ -19,8 +19,8 @@ data class UserModel(
     val deletedDate: String?,
     val deletedbyUserId: String?,
     val companies:	List<CompanyModel>?,
-    //abstract var roles	List<E>
-    val deviceRoles: List<DevClaimTemplate>,
+    val roles:	List<AppUserClaimsTemplateModel>?,
+    val deviceRoles: List<DevClaimTemplate>?,
     val claims:	List<UserClaimModel>?,
     val templateId: Int?,
     val accessToClientsView: Boolean?,
@@ -51,7 +51,7 @@ data class UserModel(
     val canAddSIMCard: Boolean?,
     val canImportSIMCards: Boolean?,
     val accessSIMCards: Boolean?,
-): Parcelable {
+):Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
@@ -68,6 +68,8 @@ data class UserModel(
         parcel.readString(),
         parcel.readString(),
         TODO("companies"),
+        TODO("roles"),
+        parcel.createTypedArrayList(DevClaimTemplate),
         TODO("claims"),
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
@@ -116,6 +118,7 @@ data class UserModel(
         parcel.writeValue(isDeleted)
         parcel.writeString(deletedDate)
         parcel.writeString(deletedbyUserId)
+        parcel.writeTypedList(deviceRoles)
         parcel.writeValue(templateId)
         parcel.writeValue(accessToClientsView)
         parcel.writeValue(canAddClients)

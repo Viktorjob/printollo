@@ -3,51 +3,56 @@ package com.app.printollo.models
 import android.os.Parcel
 import android.os.Parcelable
 
-data class DevClaimTemplate (
+data class AppClaimsTemplatePosEntity (
     val id: Int?,
-    val name: String?,
+    val appUserClaimsTemplateId: Int?,
+    val appUserClaimsTemplate: AppUserClaimsTemplateEntity,
+    val appClaim: AppClaimEntity,
+    val appClaimId: Int?,
     val isDeleted: Boolean?,
     val dateDeleted: String?,
+    val deletedByUserId: String?,
     val userId: String?,
     val dateAdded: String?,
     val dateModified: String?,
-    val role: String?,
-    val templateClaims: List<DevClaimPos?>?,
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,
-        parcel.readString(),
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        TODO("appUserClaimsTemplate"),
+        TODO("appClaim"),
+        parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readString(),
-        TODO("templateClaims")
+        parcel.readString()
     ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(id)
-        parcel.writeString(name)
+        parcel.writeValue(appUserClaimsTemplateId)
+        parcel.writeValue(appClaimId)
         parcel.writeValue(isDeleted)
         parcel.writeString(dateDeleted)
+        parcel.writeString(deletedByUserId)
         parcel.writeString(userId)
         parcel.writeString(dateAdded)
         parcel.writeString(dateModified)
-        parcel.writeString(role)
     }
 
     override fun describeContents(): Int {
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<DevClaimTemplate> {
-        override fun createFromParcel(parcel: Parcel): DevClaimTemplate {
-            return DevClaimTemplate(parcel)
+    companion object CREATOR : Parcelable.Creator<AppClaimsTemplatePosEntity> {
+        override fun createFromParcel(parcel: Parcel): AppClaimsTemplatePosEntity {
+            return AppClaimsTemplatePosEntity(parcel)
         }
 
-        override fun newArray(size: Int): Array<DevClaimTemplate?> {
+        override fun newArray(size: Int): Array<AppClaimsTemplatePosEntity?> {
             return arrayOfNulls(size)
         }
     }
